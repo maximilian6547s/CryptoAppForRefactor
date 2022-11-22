@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.cryptoapp.R
-import com.example.cryptoapp.databinding.ActivityCoinPrceListBinding
+import com.example.cryptoapp.databinding.ActivityCoinPriceListBinding
 import com.example.cryptoapp.domain.model.CoinInfo
 import com.example.cryptoapp.presentation.adapters.CoinInfoAdapter
 
@@ -13,7 +13,7 @@ class CoinPriceListActivity : AppCompatActivity() {
     private lateinit var viewModel: CoinViewModel
 
     private val binding by lazy {
-        ActivityCoinPrceListBinding.inflate(layoutInflater)
+        ActivityCoinPriceListBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,17 +22,38 @@ class CoinPriceListActivity : AppCompatActivity() {
         val adapter = CoinInfoAdapter(this)
         adapter.onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
             override fun onCoinClick(coinInfoDbModel: CoinInfo) {
-                val intent = CoinDetailActivity.newIntent(
-                    this@CoinPriceListActivity,
-                    coinInfoDbModel.fromSymbol
-                )
-                startActivity(intent)
+                if (isOnePaneMode()) {
+                    launchDetailedActivity(coinInfoDbModel.fromSymbol)
+                } else {
+                    launchDetailFragment(coinInfoDbModel.fromSymbol)
+                }
             }
         }
         binding.rvCoinPriceList.adapter = adapter
+        binding.rvCoinPriceList.itemAnimator = null
         viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
         viewModel.coinInfoList.observe(this) {
-            adapter.coinInfoList = it
+            adapter.submitList(it)
         }
+    }
+
+    private fun isOnePaneMode()  = binding.fragmentContainer == null
+
+    private fun launchDetailedActivity(fromSymbol: String) {
+        val intent = CoinDetailActivity.newIntent(
+            this@CoinPriceListActivity,
+            fromSymbol
+        )
+        startActivity(intent)
+
+    }
+
+    private fun launchDetailFragment(fromSymbol:String) {
+        supportFragmentManager.popBackStack()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, CoinDetailFragment.newInstance(fromSymbol))
+            .addToBackStack(null)
+            .commit()
     }
 }
