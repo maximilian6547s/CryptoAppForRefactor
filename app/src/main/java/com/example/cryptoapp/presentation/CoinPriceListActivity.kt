@@ -3,8 +3,7 @@ package com.example.cryptoapp.presentation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.cryptoapp.R
-import com.example.cryptoapp.databinding.ActivityCoinPrceListBinding
+import com.example.cryptoapp.databinding.ActivityCoinPriceListBinding
 import com.example.cryptoapp.domain.model.CoinInfo
 import com.example.cryptoapp.presentation.adapters.CoinInfoAdapter
 
@@ -13,7 +12,7 @@ class CoinPriceListActivity : AppCompatActivity() {
     private lateinit var viewModel: CoinViewModel
 
     private val binding by lazy {
-        ActivityCoinPrceListBinding.inflate(layoutInflater)
+        ActivityCoinPriceListBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
