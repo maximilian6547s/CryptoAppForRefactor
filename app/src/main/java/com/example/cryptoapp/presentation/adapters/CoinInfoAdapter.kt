@@ -6,14 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
-import com.example.cryptoapp.data.database.model.CoinInfoDbModel
+import com.example.cryptoapp.data.network.ApiFactory.BASE_IMAGE_URL
+import com.example.cryptoapp.domain.model.CoinInfo
+import com.example.cryptoapp.utils.convertTimestampToTime
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_coin_info.view.*
 
 class CoinInfoAdapter(private val context: Context) :
     RecyclerView.Adapter<CoinInfoAdapter.CoinInfoViewHolder>() {
 
-    var coinInfoList: List<CoinInfoDbModel> = listOf()
+    var coinInfoList: List<CoinInfo> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -23,7 +25,11 @@ class CoinInfoAdapter(private val context: Context) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinInfoViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_coin_info, parent, false)
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_coin_info,
+                parent,
+                false
+            )
         return CoinInfoViewHolder(view)
     }
 
@@ -33,15 +39,15 @@ class CoinInfoAdapter(private val context: Context) :
         val coin = coinInfoList[position]
         with(holder) {
             with(coin) {
-//                val symbolsTemplate = context.resources.getString(R.string.symbols_template)
-//                val lastUpdateTemplate = context.resources.getString(R.string.last_update_template)
-//                tvSymbols.text = String.format(symbolsTemplate, fromSymbol, toSymbol)
-//                tvPrice.text = price
-//                tvLastUpdate.text = String.format(lastUpdateTemplate, getFormattedTime())
-//                Picasso.get().load(getFullImageUrl()).into(ivLogoCoin)
-//                itemView.setOnClickListener {
-//                    onCoinClickListener?.onCoinClick(this)
-//                }
+                val symbolsTemplate = context.resources.getString(R.string.symbols_template)
+                val lastUpdateTemplate = context.resources.getString(R.string.last_update_template)
+                tvSymbols.text = String.format(symbolsTemplate, fromSymbol, toSymbol)
+                tvPrice.text = price
+                tvLastUpdate.text = String.format(lastUpdateTemplate, convertTimestampToTime(lastUpdate))
+                Picasso.get().load(BASE_IMAGE_URL + imageUrl).into(ivLogoCoin)
+                itemView.setOnClickListener {
+                    onCoinClickListener?.onCoinClick(this)
+                }
             }
         }
     }
@@ -54,6 +60,6 @@ class CoinInfoAdapter(private val context: Context) :
     }
 
     interface OnCoinClickListener {
-        fun onCoinClick(coinInfoDbModel: CoinInfoDbModel)
+        fun onCoinClick(coinInfoDbModel: CoinInfo)
     }
 }
