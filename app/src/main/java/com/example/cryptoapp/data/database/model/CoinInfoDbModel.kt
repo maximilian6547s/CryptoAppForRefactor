@@ -8,7 +8,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "full_price_list")
-data class CoinPriceInfo(
+data class CoinInfoDbModel(
     @SerializedName("TYPE")
     @Expose
     val type: String?,
