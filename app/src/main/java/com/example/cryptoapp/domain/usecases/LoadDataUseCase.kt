@@ -2,9 +2,9 @@ package com.example.cryptoapp.domain.usecases
 
 import com.example.cryptoapp.domain.repository.CoinRepository
 
-class GetCoinInfoUseCase(
+class LoadDataUseCase(
     private val repository: CoinRepository
 ) {
 
-    operator fun invoke(fromSymbol: String) = repository.getCoinInfo(fromSymbol)
+    suspend operator fun invoke()  = repository.loadData()
 }
