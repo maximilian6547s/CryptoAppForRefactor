@@ -33,15 +33,15 @@ class CoinInfoAdapter(private val context: Context) :
         val coin = coinInfoList[position]
         with(holder) {
             with(coin) {
-                val symbolsTemplate = context.resources.getString(R.string.symbols_template)
-                val lastUpdateTemplate = context.resources.getString(R.string.last_update_template)
-                tvSymbols.text = String.format(symbolsTemplate, fromSymbol, toSymbol)
-                tvPrice.text = price
-                tvLastUpdate.text = String.format(lastUpdateTemplate, getFormattedTime())
-                Picasso.get().load(getFullImageUrl()).into(ivLogoCoin)
-                itemView.setOnClickListener {
-                    onCoinClickListener?.onCoinClick(this)
-                }
+//                val symbolsTemplate = context.resources.getString(R.string.symbols_template)
+//                val lastUpdateTemplate = context.resources.getString(R.string.last_update_template)
+//                tvSymbols.text = String.format(symbolsTemplate, fromSymbol, toSymbol)
+//                tvPrice.text = price
+//                tvLastUpdate.text = String.format(lastUpdateTemplate, getFormattedTime())
+//                Picasso.get().load(getFullImageUrl()).into(ivLogoCoin)
+//                itemView.setOnClickListener {
+//                    onCoinClickListener?.onCoinClick(this)
+//                }
             }
         }
     }
